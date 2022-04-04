@@ -1,5 +1,6 @@
 <?php
 
+
 function get_args_params($args = [])
 {
     $data = [
@@ -106,7 +107,7 @@ if(!function_exists('make_controller')){
         $template = file_get_contents(DEVPATH.'/templates/controller.php');
         $code = str_replace($find, $replace, $template);
         $filemanager = new Filemanager();
-        $filemanager->setDir((BASEDIR.'/app/Controllers'.$folder.'/'));
+        $filemanager->setDir((SRC_PATH.'/app/Controllers'.$folder.'/'));
         if($a = $filemanager->save($name.'Controller.php', $code, 'php')){
             echo "Tạo {$name}Controller thành công!\nBạn có thể sửa file theo dường dẫn sau: \n$a->path \n";
         }else{
@@ -131,7 +132,7 @@ function make_repository($args = [], $name = null, $model = null)
     $replace = [$name, $model, $folder];
     $filemanager = new Filemanager();
     $template = file_get_contents(DEVPATH.'/templates/repository.php');
-    $filemanager->setDir(base_path('app/Repositories/'.$folder.'/'));
+    $filemanager->setDir(base_path('src/app/Repositories/'.$folder.'/'));
     $code = str_replace($find, $replace, $template);
     if($a = $filemanager->save($name.'Repository.php', $code, 'php')){
         echo "Tạo {$name}Repository thành công!\nBạn có thể sửa file theo dường dẫn sau: \n$a->path \n";
@@ -156,7 +157,7 @@ function make_validator($args = [], $name = null, $table = null)
     $replace = [$name, $folder, getRules($table), getMessages($table)];
     $filemanager = new Filemanager();
     $template = file_get_contents(DEVPATH.'/templates/validator.php');
-    $filemanager->setDir(base_path('app/Validators/'.$folder.'/'));
+    $filemanager->setDir(base_path('src/app/Validators/'.$folder.'/'));
     $code = str_replace($find, $replace, $template);
     if($a = $filemanager->save($name.'Validator.php', $code, 'php')){
         echo "Tạo {$name}Validator thành công!\nBạn có thể sửa file theo dường dẫn sau: \n$a->path \n";
@@ -211,7 +212,7 @@ function make_model($args = [], $name = null, $table = null)
     $replace = [$name, $table, getFields($table, true), implode("\n    ", $props)];
     $filemanager = new Filemanager();
     $template = file_get_contents(DEVPATH.'/templates/model.php');
-    $filemanager->setDir(base_path('app/Models/'));
+    $filemanager->setDir(base_path('src/app/Models/'));
     $code = str_replace($find, $replace, $template);
     if($a = $filemanager->save($name.'.php', $code, 'php')){
         echo "Tạo {$name} thành công!\nBạn có thể sửa file theo dường dẫn sau: \n$a->path \n";
@@ -232,7 +233,7 @@ function make_resource($args = [], $name = null, $table = null)
     $replace = [$name, getResource($table)];
     $filemanager = new Filemanager();
     $template = file_get_contents(DEVPATH.'/templates/resource.php');
-    $filemanager->setDir(base_path('app/Resources'));
+    $filemanager->setDir(base_path('src/app/Resources'));
     $code = str_replace($find, $replace, $template);
     if($a = $filemanager->save($name.'Resource.php', $code, 'php')){
         echo "Tạo {$name}Resource thành công!\nBạn có thể sửa file theo dường dẫn sau: \n$a->path \n";
@@ -316,7 +317,7 @@ function make_modules($args = [], $make_list = null, $name = null, $table=null)
 }
 
 function make_json($args = [], $table, $filename){
-    $filemanager = new Filemanager(base_path('json'));
+    $filemanager = new Filemanager(base_path('src/json'));
     if($file = $filemanager->save($filename, Str::jsonVi(json_encode(defaultJson($table))), 'json')){
         echo "Đã tạo file thành công!\n Bạn có thể chỉnh sửa file theo dường dẫn sau:\n$file->path\n";
     }
@@ -333,7 +334,7 @@ function make_json_module($args = [], $module=null, $table=null){
     
     if(!$table) $table = Str::tableName($name);
 
-    $filemanager = new Filemanager(base_path('json'));
+    $filemanager = new Filemanager(base_path('src/json'));
     if($file = $filemanager->save($module .'/form.json', Str::jsonVi(json_encode(defaultJson($table))), 'json')){
         echo "create form success\nPath: $file->path\n";
     }
@@ -394,7 +395,7 @@ if(!function_exists('make_mask')){
         $template = file_get_contents(DEVPATH.'/templates/mask.php');
         $code = str_replace($find, $replace, $template);
         $filemanager = new Filemanager();
-        $filemanager->setDir((BASEDIR.'/app/Masks'.$folder.'/'));
+        $filemanager->setDir((SRC_PATH.'/app/Masks'.$folder.'/'));
         if($a = $filemanager->save($name.'Mask.php', $code, 'php')){
             echo "Tạo {$name}Mask thành công!\nBạn có thể sửa file theo dường dẫn sau: \n$a->path \n";
         }else{
@@ -452,7 +453,7 @@ if(!function_exists('make_mask_collection_file')){
         $template = file_get_contents(DEVPATH.'/templates/mask-collection.php');
         $code = str_replace($find, $replace, $template);
         $filemanager = new Filemanager();
-        $filemanager->setDir((BASEDIR.'/app/Masks'.$folder.'/'));
+        $filemanager->setDir((SRC_PATH.'/app/Masks'.$folder.'/'));
         if($a = $filemanager->save($name.'Collection.php', $code, 'php')){
             echo "Tạo {$name}Collection thành công!\nBạn có thể sửa file theo dường dẫn sau: \n$a->path \n";
         }else{
@@ -525,7 +526,7 @@ function create_table($params = [], $table = null, ...$args){
     $replace = [$table, implode("\n            ", $columns)];
     $filemanager = new Filemanager();
     $template = file_get_contents(DEVPATH.'/templates/create-table.php');
-    $filemanager->setDir(base_path('database/migrations/'));
+    $filemanager->setDir(base_path('src/database/migrations/'));
     $code = str_replace($find, $replace, $template);
     $fn = "create_{$table}_table.php";
     if($a = $filemanager->save($fn, $code, 'php')){
@@ -564,9 +565,9 @@ function create($item, ...$params){
 
     if($item == 'table'){
         create_table($p['params'], ...$p['args']);
-    }elseif(is_callable('make_'.$object)){
+    }elseif(is_callable('make_'.$item)){
         $args = array_merge([$p['params']], $p['args']);
-        call_user_func_array('make_'.$object, $args);
+        call_user_func_array('make_'.$item, $args);
     }
     
 }

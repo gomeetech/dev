@@ -22,6 +22,7 @@ require_once __DIR__.'/Files/Filemanager.php';
 require_once __DIR__.'/tests/str.php';
 require_once __DIR__.'/functions.php';
 
+require_once __DIR__.'/functions/exports.php';
 require_once __DIR__.'/functions/make.php';
 
 
@@ -76,3 +77,5 @@ if(count($files = $filemanager->getList(null, 'php'))){
         require $file->path;
     }
 }
+
+require_once '__call__.php';
