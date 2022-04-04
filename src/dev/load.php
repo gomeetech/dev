@@ -1,6 +1,6 @@
 <?php
 
-if(!defined('BASE_PATH')) define('BASE_PATH', dirname(dirname(dirname(dirname(dirname(__FILE__))))) . '/src');
+if(!defined('BASE_PATH')) define('BASE_PATH', dirname(dirname(dirname(dirname(dirname(dirname(__FILE__)))))) . '/src');
 define('BASEDIR', BASE_PATH);
 
 define('DEVPATH', dirname(__FILE__));
