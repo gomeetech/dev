@@ -1,0 +1,33 @@
+{
+    "name": "gomeetech/dev",
+    "description": "library for Laravel Web3",
+    "authors": [
+        {
+            "name": "Doan LN",
+            "email": "developer.vcc@gmail.com"
+        }
+    ],
+    "license": "MIT",
+    "autoload": {
+        "psr-4": {
+            "Gomee\\": "src/app/"
+        },
+        "files": ["src/helpers/__load__.php"]
+    },
+    "require": {
+        "php": "^8.0.2"
+    },
+    "config": {
+        "allow-plugins": {
+            "bamarni/composer-bin-plugin": true
+        },
+        "preferred-install": "dist",
+        "sort-packages": true
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-master": "7.4-dev"
+        }
+    }
+}
+
