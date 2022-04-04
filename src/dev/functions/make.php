@@ -530,44 +530,11 @@ function create_table($params = [], $table = null, ...$args){
     $code = str_replace($find, $replace, $template);
     $fn = "create_{$table}_table.php";
     if($a = $filemanager->save($fn, $code, 'php')){
+        exportMigration($table, $fn);
         echo "Tạo bảng {$table} thành công!\nBạn có thể sửa file theo dường dẫn sau: \n$a->path \n";
     }else{
         echo "Lỗi không xác định\n";
     }
-    // if(is_array($args)){
-    //     foreach ($args as $i => $col) {
-    //         $name = '';
-    //         $type = '';
-    //         $length = null;
-    //         $default = '';
-    //         $props = [];
-    //         if($t = count($c = explode(':', $col))){
-    //             $name = trim(array_shift($c));
-    //             if($t >= 2){
-    //                 $ty = array_shift($c);
-                    
-    //             }else{
-    //                 $type = 'string';
-    //             }
 
 
-    //         }
-    //     }
-    // }
-
-}
-
-function create($item, ...$params){
-    if(!$item){
-        die("Please select item to create (table, view)");
-    }
-    $p = get_args_params($params);
-
-    if($item == 'table'){
-        create_table($p['params'], ...$p['args']);
-    }elseif(is_callable('make_'.$item)){
-        $args = array_merge([$p['params']], $p['args']);
-        call_user_func_array('make_'.$item, $args);
-    }
-    
 }
