@@ -18,15 +18,17 @@ function __call__($args = [])
             $param = $a;
         }
 
-        if(is_countable($f)){
+        if(is_callable($f)){
             return call_user_func_array($f, $param);
         }else{
             switch($f){
                 case 'create': 
                     if(isset($param[0])){
                         $t = array_shift($param);
+                        $p = get_args_params($param);
+                        $args = array_merge([$p['params']], $p['args']);
                         if($t == 'table'){
-                            call_user_func_array("create_{$t}", $param);
+                            call_user_func_array("create_{$t}", $args);
                         }
                     }
                     break;
@@ -35,3 +37,4 @@ function __call__($args = [])
         }
     }
 }
+

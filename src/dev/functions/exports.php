@@ -6,7 +6,7 @@ function __export($key, $data = null){
         $package = new Arr(json_decode('{"name": "gomee_business","author": {"name": "Doãn LN", "email": "doanln16@gmail.com", "url": "http://doanl2.chinhlatoi.vn"}, "exports":{"database": {},"views": {},"assets": {},"providers":{}}}', true));
     }
     $package->set("exports.".$key, $data);
-    return $fileManager->saveJson('package.json'. $package->all());
+    return $fileManager->saveJson('package.json', $package->all());
 }
 
 function exportMigration($table, $filename = null)
