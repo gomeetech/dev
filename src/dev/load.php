@@ -1,7 +1,8 @@
 <?php
 
-if(!defined('BASE_PATH')) define('BASE_PATH', dirname(dirname(dirname(dirname(dirname(dirname(__FILE__)))))) . '/src');
+if(!defined('BASE_PATH')) define('BASE_PATH', dirname(dirname(dirname(dirname(dirname(dirname(__FILE__)))))));
 define('BASEDIR', BASE_PATH);
+define('SRC_PATH', BASEDIR.'/src');
 
 define('DEVPATH', dirname(__FILE__));
 require_once __DIR__.'/libs/Inflector.php';
@@ -30,7 +31,7 @@ function schema($table)
         require_once __DIR__.'/Illuminate/Schema.php';
         require_once __DIR__.'/Illuminate/Blueprint.php';
         require_once __DIR__.'/Illuminate/Migration.php';
-        $dir = BASEDIR.'/database/migrations';
+        $dir = SRC_PATH.'/database/migrations';
         if (is_string($dir) && is_dir($dir)) {
             try{
                 if ($dh = opendir($dir)) {
