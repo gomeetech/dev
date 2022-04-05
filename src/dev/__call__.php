@@ -22,6 +22,7 @@ function __call__($args = [])
             return call_user_func_array($f, $param);
         }else{
             switch($f){
+                case "make":
                 case 'create': 
                     if(isset($param[0])){
                         $t = array_shift($param);
