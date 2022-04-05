@@ -535,6 +535,33 @@ function create_table($params = [], $table = null, ...$args){
     }else{
         echo "Lỗi không xác định\n";
     }
+}
+function create_provider($params = [], $name = null, ...$args){
+    if(!$name){
+        echo "Tham so:\n\$name -- Provieder\n...\$args -- tham số\n";
+        return null;
+    }
+    $name = ucfirst($name);
+    $find = ['NAME'];
+    $columns = [];
 
-
+    if((isset($params['f']) && $params['f'] != 'false') || (isset($params['full']) && $params['full'] != 'false') || (!isset($params['s']) || $params['f'] == 'false') || (!isset($params['short']) || $params['short'] == 'false')){
+        $name.='ServiceProvider';
+    }
+    
+    if(!(isset($params['timestamps']) && $params['timestamps'] == 'false')){
+        $columns[] = "\$table->timestamps();";
+    }
+    $replace = [$name];
+    $filemanager = new Filemanager();
+    $template = file_get_contents(DEVPATH.'/templates/provider.php');
+    $filemanager->setDir(base_path('src/app/Providers/'));
+    $code = str_replace($find, $replace, $template);
+    $fn = "{$name}.php";
+    if($a = $filemanager->save($fn, $code, 'php')){
+        registerProvider("Gomee\\Providers\\$name");
+        echo "Tạo Provider {$name} thành công!\nBạn có thể sửa file theo dường dẫn sau: \n$a->path \n";
+    }else{
+        echo "Lỗi không xác định\n";
+    }
 }

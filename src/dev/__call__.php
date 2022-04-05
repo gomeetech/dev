@@ -30,6 +30,10 @@ function __call__($args = [])
                         if($t == 'table'){
                             call_user_func_array("create_{$t}", $args);
                         }
+                        elseif(in_array(strtolower($t), ['service', 'provider', 'serviceproviders'])){
+                            call_user_func_array("create_provider", $args);
+                        }
+                        
                     }
                     break;
 
