@@ -4,7 +4,7 @@ class PackageManager {
     protected static $package;
     public static function check(){
         if(!static::$fileManager) static::$fileManager = new Filemanager(BASE_PATH);
-        if(!(static::$package = static::$fileManager->json('package.json'. true))){
+        if(!(static::$package = static::$fileManager->json('package.json', true))){
             static::$package = new Arr(json_decode('{"name": "gomee_business","author": {"name": "Doãn LN", "email": "doanln16@gmail.com", "url": "http://doanl2.chinhlatoi.vn"}, "exports":{"database": {},"views": {},"assets": {},"providers":{}}}', true));
         }
     }
