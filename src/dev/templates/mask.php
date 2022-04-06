@@ -1,5 +1,5 @@
 <?php
-namespace NAMESPACEMasksSUB;
+namespace NSPACEMasksSUB;
 
 use Gomee\Models\MODEL;
 use Gomee\Masks\Mask;

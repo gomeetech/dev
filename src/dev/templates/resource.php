@@ -1,6 +1,6 @@
 <?php
 
-namespace NAMESPACEResources;
+namespace NSPACEResources;
 
 use Illuminate\Http\Resources\Json\JsonResource;
 

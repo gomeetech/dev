@@ -102,7 +102,7 @@ if(!function_exists('make_controller')){
         if(!$title) $title = $name;
         if(!$module) $module = strtolower(Str::plural($name));
         
-        $find = ['NAME', 'MASTER', 'SUB', 'REPO', 'REPF', 'MODULE', 'TITLE', 'PRECTRL', 'NAMESPACE'];
+        $find = ['NAME', 'MASTER', 'SUB', 'REPO', 'REPF', 'MODULE', 'TITLE', 'PRECTRL', 'NSPACE'];
         $replace = [$name, $master, $sub, $repo, $repf, $module, $title, $prectr, Composer::getNamespace()];
 
         $template = file_get_contents(DEVPATH.'/templates/controller.php');
@@ -129,7 +129,7 @@ function make_repository($args = [], $name = null, $model = null)
     $folder = count($names) ? implode('/', array_map('ucfirst', $names)) : ucfirst(Str::plural($name));
     
     if(!$model) $model = $name;
-    $find = ['NAME', 'MODEL', 'FOLDER', 'NAMESPACE'];
+    $find = ['NAME', 'MODEL', 'FOLDER', 'NSPACE'];
     $replace = [$name, $model, $folder, Composer::getNamespace()];
     $filemanager = new Filemanager();
     $template = file_get_contents(DEVPATH.'/templates/repository.php');
@@ -154,7 +154,7 @@ function make_validator($args = [], $name = null, $table = null)
     
     if(!$table) $table = Str::tableName($name);
     
-    $find = ['NAME', 'FOLDER','$RULES', '$MESSAGES', 'NAMESPACE'];
+    $find = ['NAME', 'FOLDER','$RULES', '$MESSAGES', 'NSPACE'];
     $replace = [$name, $folder, getRules($table), getMessages($table), Composer::getNamespace()];
     $filemanager = new Filemanager();
     $template = file_get_contents(DEVPATH.'/templates/validator.php');
@@ -178,7 +178,7 @@ function make_engine($args = [], $name = null)
     $filemanager = new Filemanager();
     $template = file_get_contents(DEVPATH.'/templates/engine.php');
     $filemanager->setDir(base_path('app/Engines/'));
-    $find = ['NAME', 'NAMESPACE'];
+    $find = ['NAME', 'NSPACE'];
     $replace = [$name, Composer::getNamespace()];
     $code = str_replace($find, $replace, $template);
     if($a = $filemanager->save($name.'Engine.php', $code, 'php')){
@@ -197,7 +197,7 @@ function make_model($args = [], $name = null, $table = null)
     }
     if(!$table) $table = Str::tableName($name);
 
-    $find = ['NAME','TABLE', 'FILLABLE', '//PROPS', 'NAMESPACE'];
+    $find = ['NAME','TABLE', 'FILLABLE', '//PROPS', 'NSPACE'];
     $props = [];
 
 
@@ -230,7 +230,7 @@ function make_resource($args = [], $name = null, $table = null)
     }
     if(!$table) $table = Str::tableName($name);
 
-    $find = ['NAME', '$ELEMENTS', 'NAMESPACE'];
+    $find = ['NAME', '$ELEMENTS', 'NSPACE'];
     $replace = [$name, getResource($table), Composer::getNamespace()];
     $filemanager = new Filemanager();
     $template = file_get_contents(DEVPATH.'/templates/resource.php');
@@ -390,7 +390,7 @@ if(!function_exists('make_mask')){
         }
 
         
-        $find = ['NAME', 'MODEL', '$model', 'SUB', 'NAMESPACE'];
+        $find = ['NAME', 'MODEL', '$model', 'SUB', 'NSPACE'];
         $replace = [$name, $model, '$'.strtolower(substr($model, 0, 1)).substr($model, 1), $sub, Composer::getNamespace()];
 
         $template = file_get_contents(DEVPATH.'/templates/mask.php');
@@ -515,7 +515,7 @@ function create_table($params = [], $table = null, ...$args){
         return null;
     }
     $table = Str::tableName($table);
-    $find = ['TABLE_NAME', '// COLUMN HERE', 'NAMESPACE'];
+    $find = ['TABLE_NAME', '// COLUMN HERE', 'NSPACE'];
     $columns = [];
     if((isset($params['softdelete']) && $params['softdelete'] != 'false') || (isset($params['softDelete']) && $params['softDelete'] != 'false')){
         $columns[] = "\$table->softDeletes();";
@@ -543,7 +543,7 @@ function create_provider($params = [], $name = null, ...$args){
         return null;
     }
     $name = ucfirst($name);
-    $find = ['NAME', 'NAMESPACE'];
+    $find = ['NAME', 'NSPACE'];
     $columns = [];
 
     if((isset($params['f']) && $params['f'] != 'false') || (isset($params['full']) && $params['full'] != 'false') || (!isset($params['s']) || $params['f'] == 'false') || (!isset($params['short']) || $params['short'] == 'false')){

@@ -1,6 +1,6 @@
 <?php
 
-namespace NAMESPACEProviders;
+namespace NSPACEProviders;
 
 use Illuminate\Support\ServiceProvider;
 

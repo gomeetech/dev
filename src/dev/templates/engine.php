@@ -1,5 +1,5 @@
 <?php
-namespace NAMESPACEEngines;
+namespace NSPACEEngines;
 
 Class NAMEEngine{
     # code here...

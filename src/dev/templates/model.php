@@ -1,6 +1,6 @@
 <?php
 
-namespace NAMESPACEModels;
+namespace NSPACEModels;
 use Gomee\Models\Model;
 class NAME extends Model
 {

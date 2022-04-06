@@ -1,6 +1,6 @@
 <?php
 
-namespace NAMESPACEControllersSUB;
+namespace NSPACEControllersSUB;
 
 use App\Http\Controllers\PRECTRLController;
 
