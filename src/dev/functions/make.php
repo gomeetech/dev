@@ -1,5 +1,6 @@
 <?php
 
+use Illuminate\Support\Facades\Schema;
 
 function get_args_params($args = [])
 {
@@ -514,7 +515,8 @@ function create_table($params = [], $table = null, ...$args){
         echo "Tham so:\n\$name -- Ten bảng\n...\$args -- tham số\n";
         return null;
     }
-    $table = Str::tableName($table);
+    // $table = Str::tableName($table);
+    if(Schema::hasTable($table)) die('Bang nay da ton tai');
     $find = ['TABLE_NAME', '// COLUMN HERE', 'NSPACE'];
     $columns = [];
     if((isset($params['softdelete']) && $params['softdelete'] != 'false') || (isset($params['softDelete']) && $params['softDelete'] != 'false')){
@@ -529,7 +531,36 @@ function create_table($params = [], $table = null, ...$args){
     $template = file_get_contents(DEVPATH.'/templates/create-table.php');
     $filemanager->setDir(base_path('src/database/migrations/'));
     $code = str_replace($find, $replace, $template);
-    $fn = "create_{$table}_table.php";
+    $fn = date('Y_m_d_His')."_create_{$table}_table.php";
+    if($a = $filemanager->save($fn, $code, 'php')){
+        exportMigration($table, $fn);
+        echo "Tạo bảng {$table} thành công!\nBạn có thể sửa file theo dường dẫn sau: \n$a->path \n";
+    }else{
+        echo "Lỗi không xác định\n";
+    }
+}
+function alter_table($params = [], $table = null, ...$args){
+    if(!$table){
+        echo "Tham so:\n\$name -- Ten bảng\n...\$args -- tham số\n";
+        return null;
+    }
+    // $table = Str::tableName($table);
+    if(!Schema::hasTable($table)) die('Bang nay ko da ton tai');
+    $find = ['TABLE_NAME', '// COLUMN HERE', 'NSPACE'];
+    $columns = [];
+    // if((isset($params['softdelete']) && $params['softdelete'] != 'false') || (isset($params['softDelete']) && $params['softDelete'] != 'false')){
+    //     $columns[] = "\$table->softDeletes();";
+    // }
+    
+    // if(!(isset($params['timestamps']) && $params['timestamps'] == 'false')){
+    //     $columns[] = "\$table->timestamps();";
+    // }
+    $replace = [$table, implode("\n            ", $columns), Composer::getNamespace()];
+    $filemanager = new Filemanager();
+    $template = file_get_contents(DEVPATH.'/templates/create-table.php');
+    $filemanager->setDir(base_path('src/database/migrations/'));
+    $code = str_replace($find, $replace, $template);
+    $fn = date('Y_m_d_His')."_create_{$table}_table.php";
     if($a = $filemanager->save($fn, $code, 'php')){
         exportMigration($table, $fn);
         echo "Tạo bảng {$table} thành công!\nBạn có thể sửa file theo dường dẫn sau: \n$a->path \n";

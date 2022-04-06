@@ -28,6 +28,12 @@ class Schema {
         }
     }
 
+    public static function hasTable($table)
+    {
+        return array_key_exists($table, static::$tables);
+
+    }
+
     /**
      * xóa bảng
      *
