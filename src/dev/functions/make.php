@@ -546,21 +546,14 @@ function alter_table($params = [], $table = null, ...$args){
     }
     // $table = Str::tableName($table);
     if(!Schema::hasTable($table)) die('Bang nay ko da ton tai');
-    $find = ['TABLE_NAME', '// COLUMN HERE', 'NSPACE'];
-    $columns = [];
-    // if((isset($params['softdelete']) && $params['softdelete'] != 'false') || (isset($params['softDelete']) && $params['softDelete'] != 'false')){
-    //     $columns[] = "\$table->softDeletes();";
-    // }
-    
-    // if(!(isset($params['timestamps']) && $params['timestamps'] == 'false')){
-    //     $columns[] = "\$table->timestamps();";
-    // }
-    $replace = [$table, implode("\n            ", $columns), Composer::getNamespace()];
+    $find = ['TABLE_NAME'];
+    $replace = [$table];
     $filemanager = new Filemanager();
-    $template = file_get_contents(DEVPATH.'/templates/create-table.php');
+    $template = file_get_contents(DEVPATH.'/templates/alter-table.php');
     $filemanager->setDir(base_path('src/database/migrations/'));
     $code = str_replace($find, $replace, $template);
-    $fn = date('Y_m_d_His')."_create_{$table}_table.php";
+    $a = $args?('_'.implode('_', $args)):'';
+    $fn = date('Y_m_d_His')."_alter_table_{$table}{$a}.php";
     if($a = $filemanager->save($fn, $code, 'php')){
         exportMigration($table, $fn);
         echo "Tạo bảng {$table} thành công!\nBạn có thể sửa file theo dường dẫn sau: \n$a->path \n";
