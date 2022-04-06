@@ -68,6 +68,7 @@ if(!function_exists('make_controller')){
             echo "Tham so:\n\t\$type -- loai controller (client, admin, manager, api, custom)\n\t\$name -- Ten controller\n\t\$repo -- ten class Repository/Model\n\t\$title -- ten/tieu de\n\t\$module -- js module && route module\n\n";
             return null;
         }
+
         $folders = [
             'client' => 'Clients',
             'admin' => 'Admin',
@@ -101,8 +102,8 @@ if(!function_exists('make_controller')){
         if(!$title) $title = $name;
         if(!$module) $module = strtolower(Str::plural($name));
         
-        $find = ['NAME', 'MASTER', 'SUB', 'REPO', 'REPF', 'MODULE', 'TITLE', 'PRECTRL'];
-        $replace = [$name, $master, $sub, $repo, $repf, $module, $title, $prectr];
+        $find = ['NAME', 'MASTER', 'SUB', 'REPO', 'REPF', 'MODULE', 'TITLE', 'PRECTRL', 'NAMESPACE'];
+        $replace = [$name, $master, $sub, $repo, $repf, $module, $title, $prectr, Composer::getNamespace()];
 
         $template = file_get_contents(DEVPATH.'/templates/controller.php');
         $code = str_replace($find, $replace, $template);
@@ -128,8 +129,8 @@ function make_repository($args = [], $name = null, $model = null)
     $folder = count($names) ? implode('/', array_map('ucfirst', $names)) : ucfirst(Str::plural($name));
     
     if(!$model) $model = $name;
-    $find = ['NAME', 'MODEL', 'FOLDER'];
-    $replace = [$name, $model, $folder];
+    $find = ['NAME', 'MODEL', 'FOLDER', 'NAMESPACE'];
+    $replace = [$name, $model, $folder, Composer::getNamespace()];
     $filemanager = new Filemanager();
     $template = file_get_contents(DEVPATH.'/templates/repository.php');
     $filemanager->setDir(base_path('src/app/Repositories/'.$folder.'/'));
@@ -153,8 +154,8 @@ function make_validator($args = [], $name = null, $table = null)
     
     if(!$table) $table = Str::tableName($name);
     
-    $find = ['NAME', 'FOLDER','$RULES', '$MESSAGES'];
-    $replace = [$name, $folder, getRules($table), getMessages($table)];
+    $find = ['NAME', 'FOLDER','$RULES', '$MESSAGES', 'NAMESPACE'];
+    $replace = [$name, $folder, getRules($table), getMessages($table), Composer::getNamespace()];
     $filemanager = new Filemanager();
     $template = file_get_contents(DEVPATH.'/templates/validator.php');
     $filemanager->setDir(base_path('src/app/Validators/'.$folder.'/'));
@@ -177,8 +178,8 @@ function make_engine($args = [], $name = null)
     $filemanager = new Filemanager();
     $template = file_get_contents(DEVPATH.'/templates/engine.php');
     $filemanager->setDir(base_path('app/Engines/'));
-    $find = ['NAME'];
-    $replace = [$name];
+    $find = ['NAME', 'NAMESPACE'];
+    $replace = [$name, Composer::getNamespace()];
     $code = str_replace($find, $replace, $template);
     if($a = $filemanager->save($name.'Engine.php', $code, 'php')){
         echo "Tạo {$name}Engine thành công!\nBạn có thể sửa file theo dường dẫn sau: \n$a->path \n";
@@ -196,7 +197,7 @@ function make_model($args = [], $name = null, $table = null)
     }
     if(!$table) $table = Str::tableName($name);
 
-    $find = ['NAME','TABLE', 'FILLABLE', '//PROPS'];
+    $find = ['NAME','TABLE', 'FILLABLE', '//PROPS', 'NAMESPACE'];
     $props = [];
 
 
@@ -209,7 +210,7 @@ function make_model($args = [], $name = null, $table = null)
     }
 
 
-    $replace = [$name, $table, getFields($table, true), implode("\n    ", $props)];
+    $replace = [$name, $table, getFields($table, true), implode("\n    ", $props), Composer::getNamespace()];
     $filemanager = new Filemanager();
     $template = file_get_contents(DEVPATH.'/templates/model.php');
     $filemanager->setDir(base_path('src/app/Models/'));
@@ -229,8 +230,8 @@ function make_resource($args = [], $name = null, $table = null)
     }
     if(!$table) $table = Str::tableName($name);
 
-    $find = ['NAME', '$ELEMENTS'];
-    $replace = [$name, getResource($table)];
+    $find = ['NAME', '$ELEMENTS', 'NAMESPACE'];
+    $replace = [$name, getResource($table), Composer::getNamespace()];
     $filemanager = new Filemanager();
     $template = file_get_contents(DEVPATH.'/templates/resource.php');
     $filemanager->setDir(base_path('src/app/Resources'));
@@ -389,8 +390,8 @@ if(!function_exists('make_mask')){
         }
 
         
-        $find = ['NAME', 'MODEL', '$model', 'SUB'];
-        $replace = [$name, $model, '$'.strtolower(substr($model, 0, 1)).substr($model, 1), $sub];
+        $find = ['NAME', 'MODEL', '$model', 'SUB', 'NAMESPACE'];
+        $replace = [$name, $model, '$'.strtolower(substr($model, 0, 1)).substr($model, 1), $sub, Composer::getNamespace()];
 
         $template = file_get_contents(DEVPATH.'/templates/mask.php');
         $code = str_replace($find, $replace, $template);
@@ -514,7 +515,7 @@ function create_table($params = [], $table = null, ...$args){
         return null;
     }
     $table = Str::tableName($table);
-    $find = ['TABLE_NAME', '// COLUMN HERE'];
+    $find = ['TABLE_NAME', '// COLUMN HERE', 'NAMESPACE'];
     $columns = [];
     if((isset($params['softdelete']) && $params['softdelete'] != 'false') || (isset($params['softDelete']) && $params['softDelete'] != 'false')){
         $columns[] = "\$table->softDeletes();";
@@ -523,7 +524,7 @@ function create_table($params = [], $table = null, ...$args){
     if(!(isset($params['timestamps']) && $params['timestamps'] == 'false')){
         $columns[] = "\$table->timestamps();";
     }
-    $replace = [$table, implode("\n            ", $columns)];
+    $replace = [$table, implode("\n            ", $columns), Composer::getNamespace()];
     $filemanager = new Filemanager();
     $template = file_get_contents(DEVPATH.'/templates/create-table.php');
     $filemanager->setDir(base_path('src/database/migrations/'));
@@ -542,7 +543,7 @@ function create_provider($params = [], $name = null, ...$args){
         return null;
     }
     $name = ucfirst($name);
-    $find = ['NAME'];
+    $find = ['NAME', 'NAMESPACE'];
     $columns = [];
 
     if((isset($params['f']) && $params['f'] != 'false') || (isset($params['full']) && $params['full'] != 'false') || (!isset($params['s']) || $params['f'] == 'false') || (!isset($params['short']) || $params['short'] == 'false')){
@@ -552,7 +553,7 @@ function create_provider($params = [], $name = null, ...$args){
     if(!(isset($params['timestamps']) && $params['timestamps'] == 'false')){
         $columns[] = "\$table->timestamps();";
     }
-    $replace = [$name];
+    $replace = [$name, Composer::getNamespace()];
     $filemanager = new Filemanager();
     $template = file_get_contents(DEVPATH.'/templates/provider.php');
     $filemanager->setDir(base_path('src/app/Providers/'));

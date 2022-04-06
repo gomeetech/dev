@@ -21,6 +21,34 @@ class PackageManager {
         return static::$package;
     }
 }
+class Composer {
+    protected static $fileManager;
+    /**
+     * arr
+     *
+     * @var Arr
+     */
+    protected static $composer;
+    public static function check(){
+        if(!static::$fileManager) static::$fileManager = new Filemanager(BASE_PATH);
+        if(!(static::$composer = static::$fileManager->json('composer.json', true))){
+            // static::$package = new Arr(json_decode('{"name": "gomee_business","author": {"name": "Doãn LN", "email": "doanln16@gmail.com", "url": "http://doanl2.chinhlatoi.vn"}, "exports":{"database": {},"views": {},"assets": {},"providers":{}}}', true));
+        }
+    }
+    public static function update($key = null, $data = null)
+    {
+        static::check();
+        if($key) static::$composer->set($key, $data);
+        return static::$fileManager->saveJson('composer.json', static::$composer->all());
+    }
+
+    public static function getNamespace()
+    {
+        static::check();
+        return static::$composer->firstKey('autoload.psr-4');
+    }
+}
+
 
 function __export($key, $data = null){
     return PackageManager::export($key, $data);

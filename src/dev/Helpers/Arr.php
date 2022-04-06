@@ -485,6 +485,16 @@ Class Arr implements Countable, ArrayAccess, IteratorAggregate, JsonSerializable
         return array_keys($this->data, ...$args);
     }
 
+    public function firstKey($rootKey=null)
+    {
+        $a = $rootKey!==null?$this->get($rootKey):$this->data;
+        if(is_array($a)){
+            $ks = array_keys($a);
+            return array_shift($ks);
+        }
+        return '';
+    }
+
     /**
      * tao doi tuong moi bang prefix
      *

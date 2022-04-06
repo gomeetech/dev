@@ -1,13 +1,13 @@
 <?php
 
-namespace Gomee\ControllersSUB;
+namespace NAMESPACEControllersSUB;
 
 use App\Http\Controllers\PRECTRLController;
 
 use Illuminate\Http\Request;
 use Gomee\Helpers\Arr;
 
-use Gomee\Repositories\REPF\REPORepository;
+use NAMESPACERepositories\REPF\REPORepository;
 
 class NAMEController extends MASTERController
 {

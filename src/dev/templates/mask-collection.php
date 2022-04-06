@@ -1,5 +1,5 @@
 <?php
-namespace Gomee\MasksSUB;
+namespace NAMESPACEMasksSUB;
 
 use Gomee\Masks\MaskCollection;
 

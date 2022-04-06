@@ -149,7 +149,7 @@ trait FileMethods{
      * @param string $filename
      * @param mixed $content
      * @param string $mime_type là định dạng hoặc loại tập tin
-     * @return boolean
+     * @return Arr
      */
 
     public function save($filename = null, $content = null, $mime_type = null)

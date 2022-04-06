@@ -1,15 +1,15 @@
 <?php
 
-namespace Gomee\Repositories\FOLDER;
+namespace NAMESPACERepositories\FOLDER;
 
 use Gomee\Repositories\BaseRepository;
 /**
  * validator 
  * 
  */
-use Gomee\Validators\FOLDER\NAMEValidator;
-use Gomee\Masks\FOLDER\MODELMask;
-use Gomee\Masks\FOLDER\MODELCollection;
+use NAMESPACEValidators\FOLDER\NAMEValidator;
+use NAMESPACEMasks\FOLDER\MODELMask;
+use NAMESPACEMasks\FOLDER\MODELCollection;
 class NAMERepository extends BaseRepository
 {
     /**

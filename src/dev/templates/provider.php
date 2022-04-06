@@ -1,6 +1,6 @@
 <?php
 
-namespace Gomee\Providers;
+namespace NAMESPACEProviders;
 
 use Illuminate\Support\ServiceProvider;
 

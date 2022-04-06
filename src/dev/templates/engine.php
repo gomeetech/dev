@@ -1,5 +1,5 @@
 <?php
-namespace Gomee\Engines;
+namespace NAMESPACEEngines;
 
 Class NAMEEngine{
     # code here...

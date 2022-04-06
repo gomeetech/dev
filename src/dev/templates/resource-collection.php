@@ -1,6 +1,6 @@
 <?php
 
-namespace Gomee\Resources;
+namespace NAMESPACEResources;
 
 use Illuminate\Http\Resources\Json\ResourceCollection;
 

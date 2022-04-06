@@ -1,6 +1,6 @@
 <?php
 
-namespace Gomee\Validators\FOLDER;
+namespace NAMESPACEValidators\FOLDER;
 
 use Gomee\Validators\Validator as BaseValidator;
 
