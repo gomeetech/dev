@@ -73,10 +73,6 @@ if(!function_exists('make_controller')){
         $folders = [
             'client' => 'Clients',
             'admin' => 'Admin',
-            'account' => 'Accounts',
-            'manager' => 'Manager',
-            'branch' => 'Branch',
-            'cpanel' => 'CPanel',
             'api' => 'Apis',
             'custom' => null
         ];
@@ -88,7 +84,7 @@ if(!function_exists('make_controller')){
         $master = ucfirst($t);
         $prectr = $master;
         if($master){
-            $prectr = $folders[$t]."\\".$master;
+            $prectr = "Modules\\".$master;
         }
         $sub = null;
         if($folder){
