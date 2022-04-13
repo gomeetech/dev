@@ -563,7 +563,7 @@ function create_provider($params = [], $name = null, ...$args){
         return null;
     }
     $name = ucfirst($name);
-    $find = ['NAME', 'NSPACE', '// ASSIGN PACKAGE'];
+    $find = ['NAME', 'NSPACE', 'PACKAGESLUG'];
     $columns = [];
     $pf = '';
     if((isset($params['f']) && $params['f'] != 'false') || (isset($params['full']) && $params['full'] != 'false') || (!isset($params['s']) || $params['f'] == 'false') || (!isset($params['short']) || $params['short'] == 'false')){
@@ -572,7 +572,7 @@ function create_provider($params = [], $name = null, ...$args){
     if((isset($params['pkg']) && $params['pkg'] == 'true') || (isset($params['package']) && $params['package'] == 'true')){
         $pf = 'pkg-';
     }
-    $replace = [$name, Composer::getNamespace(), '//'];
+    $replace = [$name, Composer::getNamespace(), Composer::getPackageName()];
     $filemanager = new Filemanager();
     $template = file_get_contents(DEVPATH.'/templates/'.$pf.'provider.php');
     $filemanager->setDir(base_path('src/app/Providers/'));

@@ -15,7 +15,7 @@ class NAME extends ServiceProvider
      */
     public function register()
     {
-        System::addPackage('ecommerce', dirname(dirname(dirname(dirname(__FILE__)))));
+        System::addPackage('PACKAGESLUG', dirname(dirname(dirname(dirname(__FILE__)))));
 
     }
 

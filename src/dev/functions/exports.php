@@ -29,11 +29,12 @@ class Composer {
      * @var Arr
      */
     protected static $composer;
+    protected static $manifest;
     public static function check(){
         if(!static::$fileManager) static::$fileManager = new Filemanager(BASE_PATH);
-        if(!(static::$composer = static::$fileManager->json('composer.json', true))){
-            // static::$package = new Arr(json_decode('{"name": "gomee_business","author": {"name": "Doãn LN", "email": "doanln16@gmail.com", "url": "http://doanl2.chinhlatoi.vn"}, "exports":{"database": {},"views": {},"assets": {},"providers":{}}}', true));
-        }
+        if(!static::$composer) static::$composer = static::$fileManager->json('composer.json', true);
+        if(!static::$manifest) static::$manifest = static::$fileManager->json('manifest.json', true);
+        
     }
     public static function update($key = null, $data = null)
     {
@@ -46,6 +47,12 @@ class Composer {
     {
         static::check();
         return static::$composer->firstKey('autoload.psr-4');
+    }
+
+    public static function getPackageName()
+    {
+        static::check();
+        return static::$manifest->firstKey('package');
     }
 }
 
