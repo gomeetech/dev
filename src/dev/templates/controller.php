@@ -32,6 +32,7 @@ class NAMEController extends MASTERController
     public function __construct(REPORepository $repository)
     {
         $this->repository = $repository;
+        
         $this->init();
     }
 

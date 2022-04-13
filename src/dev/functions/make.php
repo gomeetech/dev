@@ -563,19 +563,18 @@ function create_provider($params = [], $name = null, ...$args){
         return null;
     }
     $name = ucfirst($name);
-    $find = ['NAME', 'NSPACE'];
+    $find = ['NAME', 'NSPACE', '// ASSIGN PACKAGE'];
     $columns = [];
-
+    $pf = '';
     if((isset($params['f']) && $params['f'] != 'false') || (isset($params['full']) && $params['full'] != 'false') || (!isset($params['s']) || $params['f'] == 'false') || (!isset($params['short']) || $params['short'] == 'false')){
         $name.='ServiceProvider';
     }
-    
-    if(!(isset($params['timestamps']) && $params['timestamps'] == 'false')){
-        $columns[] = "\$table->timestamps();";
+    if((isset($params['pkg']) && $params['pkg'] == 'true') || (isset($params['package']) && $params['package'] == 'true')){
+        $pf = 'pkg-';
     }
-    $replace = [$name, Composer::getNamespace()];
+    $replace = [$name, Composer::getNamespace(), '//'];
     $filemanager = new Filemanager();
-    $template = file_get_contents(DEVPATH.'/templates/provider.php');
+    $template = file_get_contents(DEVPATH.'/templates/'.$pf.'provider.php');
     $filemanager->setDir(base_path('src/app/Providers/'));
     $code = str_replace($find, $replace, $template);
     $fn = "{$name}.php";

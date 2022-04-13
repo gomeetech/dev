@@ -4,6 +4,8 @@ namespace NSPACEProviders;
 
 use Illuminate\Support\ServiceProvider;
 
+use Gomee\Core\System;
+
 class NAME extends ServiceProvider
 {
     /**
@@ -13,7 +15,8 @@ class NAME extends ServiceProvider
      */
     public function register()
     {
-        // ASSIGN PACKAGE
+        System::addPackage('ecommerce', dirname(dirname(dirname(dirname(__FILE__)))));
+
     }
 
     /**
