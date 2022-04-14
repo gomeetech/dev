@@ -52,7 +52,7 @@ class Composer {
     public static function getPackageName()
     {
         static::check();
-        return static::$manifest->firstKey('package');
+        return static::$manifest->get('package');
     }
 }
 
