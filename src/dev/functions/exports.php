@@ -1,27 +1,5 @@
 <?php
-class PackageManager {
-    protected static $fileManager;
-    protected static $package;
-    public static function check(){
-        if(!static::$fileManager) static::$fileManager = new Filemanager(BASE_PATH);
-        if(!(static::$package = static::$fileManager->json('package.json', true))){
-            static::$package = new Arr(json_decode('{"name": "gomee_business","author": {"name": "Doãn LN", "email": "doanln16@gmail.com", "url": "http://doanl2.chinhlatoi.vn"}, "exports":{"database": {},"views": {},"assets": {},"providers":{}}}', true));
-        }
-    }
-    public static function export($key = null, $data = null)
-    {
-        static::check();
-        if($key) static::$package->set("exports.".$key, $data);
-        return static::$fileManager->saveJson('package.json', static::$package->all());
-    }
-
-    public static function get()
-    {
-        static::check();
-        return static::$package;
-    }
-}
-class Composer {
+class Dev {
     protected static $fileManager;
     /**
      * arr
@@ -36,7 +14,12 @@ class Composer {
         if(!static::$manifest) static::$manifest = static::$fileManager->json('manifest.json', true);
         
     }
-    public static function update($key = null, $data = null)
+    public static function getComposer()
+    {
+        static::check();
+        return static::$composer;
+    }
+    public static function updateComposer($key = null, $data = null)
     {
         static::check();
         if($key) static::$composer->set($key, $data);
@@ -54,23 +37,20 @@ class Composer {
         static::check();
         return static::$manifest->get('package');
     }
+    public static function getManifest()
+    {
+        static::check();
+        return static::$manifest;
+    }
+
 }
 
 
-function __export($key, $data = null){
-    return PackageManager::export($key, $data);
-}
-
-function exportMigration($table, $filename = null)
-{
-    if(!$filename) $filename = "create_{$table}_table.php";
-    __export('database.migrations.'.$table, $filename);
-}
 function registerProvider($class){
-    $package = PackageManager::get();
-    $sp = $package->get('exports.providers');
+    $composer = Dev::getComposer();
+    $sp = $composer->get('extra.laravel.providers');
     if(!$sp) $sp=[$class];
     elseif(!in_array($class, $sp)) $sp[] = $class;
-    $package->set('exports.providers', $sp);
-    return PackageManager::export();
+    $composer->set('extra.laravel.providers', $sp);
+    return Dev::updateComposer();
 }

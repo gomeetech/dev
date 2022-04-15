@@ -100,7 +100,7 @@ if(!function_exists('make_controller')){
         if(!$module) $module = strtolower(Str::plural($name));
         
         $find = ['NAME', 'MASTER', 'SUB', 'REPO', 'REPF', 'MODULE', 'TITLE', 'PRECTRL', 'NSPACE'];
-        $replace = [$name, $master, $sub, $repo, $repf, $module, $title, $prectr, Composer::getNamespace()];
+        $replace = [$name, $master, $sub, $repo, $repf, $module, $title, $prectr, Dev::getNamespace()];
 
         $template = file_get_contents(DEVPATH.'/templates/controller.php');
         $code = str_replace($find, $replace, $template);
@@ -127,7 +127,7 @@ function make_repository($args = [], $name = null, $model = null)
     
     if(!$model) $model = $name;
     $find = ['NAME', 'MODEL', 'FOLDER', 'NSPACE'];
-    $replace = [$name, $model, $folder, Composer::getNamespace()];
+    $replace = [$name, $model, $folder, Dev::getNamespace()];
     $filemanager = new Filemanager();
     $template = file_get_contents(DEVPATH.'/templates/repository.php');
     $filemanager->setDir(base_path('src/app/Repositories/'.$folder.'/'));
@@ -152,7 +152,7 @@ function make_validator($args = [], $name = null, $table = null)
     if(!$table) $table = Str::tableName($name);
     
     $find = ['NAME', 'FOLDER','$RULES', '$MESSAGES', 'NSPACE'];
-    $replace = [$name, $folder, getRules($table), getMessages($table), Composer::getNamespace()];
+    $replace = [$name, $folder, getRules($table), getMessages($table), Dev::getNamespace()];
     $filemanager = new Filemanager();
     $template = file_get_contents(DEVPATH.'/templates/validator.php');
     $filemanager->setDir(base_path('src/app/Validators/'.$folder.'/'));
@@ -176,7 +176,7 @@ function make_engine($args = [], $name = null)
     $template = file_get_contents(DEVPATH.'/templates/engine.php');
     $filemanager->setDir(base_path('app/Engines/'));
     $find = ['NAME', 'NSPACE'];
-    $replace = [$name, Composer::getNamespace()];
+    $replace = [$name, Dev::getNamespace()];
     $code = str_replace($find, $replace, $template);
     if($a = $filemanager->save($name.'Engine.php', $code, 'php')){
         echo "Tạo {$name}Engine thành công!\nBạn có thể sửa file theo dường dẫn sau: \n$a->path \n";
@@ -207,7 +207,7 @@ function make_model($args = [], $name = null, $table = null)
     }
 
 
-    $replace = [$name, $table, getFields($table, true), implode("\n    ", $props), Composer::getNamespace()];
+    $replace = [$name, $table, getFields($table, true), implode("\n    ", $props), Dev::getNamespace()];
     $filemanager = new Filemanager();
     $template = file_get_contents(DEVPATH.'/templates/model.php');
     $filemanager->setDir(base_path('src/app/Models/'));
@@ -228,7 +228,7 @@ function make_resource($args = [], $name = null, $table = null)
     if(!$table) $table = Str::tableName($name);
 
     $find = ['NAME', '$ELEMENTS', 'NSPACE'];
-    $replace = [$name, getResource($table), Composer::getNamespace()];
+    $replace = [$name, getResource($table), Dev::getNamespace()];
     $filemanager = new Filemanager();
     $template = file_get_contents(DEVPATH.'/templates/resource.php');
     $filemanager->setDir(base_path('src/app/Resources'));
@@ -388,7 +388,7 @@ if(!function_exists('make_mask')){
 
         
         $find = ['NAME', 'MODEL', '$model', 'SUB', 'NSPACE'];
-        $replace = [$name, $model, '$'.strtolower(substr($model, 0, 1)).substr($model, 1), $sub, Composer::getNamespace()];
+        $replace = [$name, $model, '$'.strtolower(substr($model, 0, 1)).substr($model, 1), $sub, Dev::getNamespace()];
 
         $template = file_get_contents(DEVPATH.'/templates/mask.php');
         $code = str_replace($find, $replace, $template);
@@ -522,14 +522,14 @@ function create_table($params = [], $table = null, ...$args){
     if(!(isset($params['timestamps']) && $params['timestamps'] == 'false')){
         $columns[] = "\$table->timestamps();";
     }
-    $replace = [$table, implode("\n            ", $columns), Composer::getNamespace()];
+    $replace = [$table, implode("\n            ", $columns), Dev::getNamespace()];
     $filemanager = new Filemanager();
     $template = file_get_contents(DEVPATH.'/templates/create-table.php');
     $filemanager->setDir(base_path('src/database/migrations/'));
     $code = str_replace($find, $replace, $template);
     $fn = date('Y_m_d_His')."_create_{$table}_table.php";
     if($a = $filemanager->save($fn, $code, 'php')){
-        exportMigration($table, $fn);
+        // exportMigration($table, $fn);
         echo "Tạo bảng {$table} thành công!\nBạn có thể sửa file theo dường dẫn sau: \n$a->path \n";
     }else{
         echo "Lỗi không xác định\n";
@@ -551,7 +551,7 @@ function alter_table($params = [], $table = null, ...$args){
     $a = $args?('_'.implode('_', $args)):'';
     $fn = date('Y_m_d_His')."_alter_table_{$table}{$a}.php";
     if($a = $filemanager->save($fn, $code, 'php')){
-        exportMigration($table, $fn);
+        // exportMigration($table, $fn);
         echo "Tạo bảng {$table} thành công!\nBạn có thể sửa file theo dường dẫn sau: \n$a->path \n";
     }else{
         echo "Lỗi không xác định\n";
@@ -572,7 +572,7 @@ function create_provider($params = [], $name = null, ...$args){
     if((isset($params['pkg']) && $params['pkg'] == 'true') || (isset($params['package']) && $params['package'] == 'true')){
         $pf = 'pkg-';
     }
-    $replace = [$name, Composer::getNamespace(), Composer::getPackageName()];
+    $replace = [$name, Dev::getNamespace(), Dev::getPackageName()];
     $filemanager = new Filemanager();
     $template = file_get_contents(DEVPATH.'/templates/'.$pf.'provider.php');
     $filemanager->setDir(base_path('src/app/Providers/'));
