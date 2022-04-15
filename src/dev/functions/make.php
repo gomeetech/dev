@@ -572,14 +572,14 @@ function create_provider($params = [], $name = null, ...$args){
     if((isset($params['pkg']) && $params['pkg'] == 'true') || (isset($params['package']) && $params['package'] == 'true')){
         $pf = 'pkg-';
     }
-    $replace = [$name, Dev::getNamespace(), Dev::getPackageName()];
+    $replace = [$name, $namespace = Dev::getNamespace(), Dev::getPackageName()];
     $filemanager = new Filemanager();
     $template = file_get_contents(DEVPATH.'/templates/'.$pf.'provider.php');
     $filemanager->setDir(base_path('src/app/Providers/'));
     $code = str_replace($find, $replace, $template);
     $fn = "{$name}.php";
     if($a = $filemanager->save($fn, $code, 'php')){
-        registerProvider("Gomee\\Providers\\$name");
+        registerProvider($namespace."Providers\\$name");
         echo "Tạo Provider {$name} thành công!\nBạn có thể sửa file theo dường dẫn sau: \n$a->path \n";
     }else{
         echo "Lỗi không xác định\n";
