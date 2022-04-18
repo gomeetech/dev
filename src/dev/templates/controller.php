@@ -7,7 +7,7 @@ use Gomee\Controllers\PRECTRLController;
 use Illuminate\Http\Request;
 use Gomee\Helpers\Arr;
 
-use NAMESPACERepositories\REPF\REPORepository;
+use NSPACERepositories\REPF\REPORepository;
 
 class NAMEController extends MASTERController
 {
