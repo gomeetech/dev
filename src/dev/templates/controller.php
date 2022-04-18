@@ -2,7 +2,7 @@
 
 namespace NSPACEControllersSUB;
 
-use App\Http\Controllers\PRECTRLController;
+use Gomee\Controllers\PRECTRLController;
 
 use Illuminate\Http\Request;
 use Gomee\Helpers\Arr;
@@ -16,6 +16,8 @@ class NAMEController extends MASTERController
     protected $moduleName = 'TITLE';
 
     protected $flashMode = true;
+
+    protected $package = 'PACKAGE';
 
     /**
      * repository chinh

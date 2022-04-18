@@ -563,7 +563,7 @@ function create_provider($params = [], $name = null, ...$args){
         return null;
     }
     $name = ucfirst($name);
-    $find = ['NAME', 'NSPACE', 'PACKAGESLUG'];
+    $find = ['NAME', 'NSPACE', 'PACKAGE'];
     $columns = [];
     $pf = '';
     if((isset($params['f']) && $params['f'] != 'false') || (isset($params['full']) && $params['full'] != 'false') || (!isset($params['s']) || $params['f'] == 'false') || (!isset($params['short']) || $params['short'] == 'false')){
